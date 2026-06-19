@@ -282,7 +282,19 @@ All protected endpoints require a JWT bearer token attached to headers: `Authori
 
 ## 👤 Demo Credentials
 
-Demo credentials available upon request.
+All seed accounts share the same default password:
+* **Password**: `password123`
+
+| Role | Username |
+| :--- | :--- |
+| **Canteen Admin** | `admin1` |
+| **Counter Cashier** | `cashier1` |
+| **Kitchen Crew** | `kitchen1` |
+| **Student** | `22bd1a0501` |
+| **Student** | `22bd1a0502` |
+
+> [!NOTE]
+> Demo credentials are provided for testing purposes only.
 
 ---
 
