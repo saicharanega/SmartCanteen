@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../../config';
 import { UserPlus, UserCheck, Key, ShieldAlert, Loader2, CheckCircle2, ListFilter, ChefHat, CreditCard, Search, History, RefreshCcw, Phone, Edit, X } from 'lucide-react';
 
 const StaffManagement = () => {
@@ -59,7 +60,7 @@ const StaffManagement = () => {
     setFetchingStaff(true);
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
-      const res = await fetch('http://localhost:5001/api/admin/staff', {
+      const res = await fetch(`${API_URL}/api/admin/staff`, {
         headers: { 'Authorization': `Bearer ${savedToken}` }
       });
       const data = await res.json();
@@ -78,7 +79,7 @@ const StaffManagement = () => {
     setFetchingLogs(true);
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
-      const res = await fetch('http://localhost:5001/api/admin/password-reset/logs', {
+      const res = await fetch(`${API_URL}/api/admin/password-reset/logs`, {
         headers: { 'Authorization': `Bearer ${savedToken}` }
       });
       const data = await res.json();
@@ -135,7 +136,7 @@ const StaffManagement = () => {
 
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
-      const res = await fetch('http://localhost:5001/api/admin/staff/create', {
+      const res = await fetch(`${API_URL}/api/admin/staff/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -272,7 +273,7 @@ const StaffManagement = () => {
 
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
-      const res = await fetch('http://localhost:5001/api/admin/password-reset/reset', {
+      const res = await fetch(`${API_URL}/api/admin/password-reset/reset`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

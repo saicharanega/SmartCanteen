@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_URL } from '../../config';
 import { useCanteen } from '../../context/CanteenContext';
 import { 
   Minus, 
@@ -45,7 +46,7 @@ const Cart = ({ setCurrentView }) => {
       setIsProcessing(true);
       try {
         const savedToken = sessionStorage.getItem('smartcanteen_token');
-        const orderRes = await fetch('http://localhost:5001/api/payment/create-order', {
+        const orderRes = await fetch(`${API_URL}/api/payment/create-order`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -79,7 +80,7 @@ const Cart = ({ setCurrentView }) => {
           handler: async function (response) {
             setIsProcessing(true);
             try {
-              const verifyRes = await fetch('http://localhost:5001/api/payment/verify', {
+              const verifyRes = await fetch(`${API_URL}/api/payment/verify`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -144,7 +145,7 @@ const Cart = ({ setCurrentView }) => {
       const mockOrderId = mockPaymentData.orderId;
       try {
         const savedToken = sessionStorage.getItem('smartcanteen_token');
-        const verifyRes = await fetch('http://localhost:5001/api/payment/verify', {
+        const verifyRes = await fetch(`${API_URL}/api/payment/verify`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

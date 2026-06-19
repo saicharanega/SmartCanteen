@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { API_URL } from '../config';
 import { io as socketIO } from 'socket.io-client';
 
 const CanteenContext = createContext();
@@ -59,7 +60,7 @@ export const CanteenProvider = ({ children }) => {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
       if (!savedToken) return;
 
-      const res = await fetch('http://localhost:5001/api/admin/analytics', {
+      const res = await fetch(`${API_URL}/api/admin/analytics`, {
         headers: {
           'Authorization': `Bearer ${savedToken}`
         }
@@ -79,7 +80,7 @@ export const CanteenProvider = ({ children }) => {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
       if (!savedToken) return;
 
-      const res = await fetch('http://localhost:5001/api/notifications/admin/stats', {
+      const res = await fetch(`${API_URL}/api/notifications/admin/stats`, {
         headers: {
           'Authorization': `Bearer ${savedToken}`
         }
@@ -108,7 +109,7 @@ export const CanteenProvider = ({ children }) => {
       }
 
       try {
-        const res = await fetch('http://localhost:5001/api/auth/profile', {
+        const res = await fetch(`${API_URL}/api/auth/profile`, {
           headers: {
             'Authorization': `Bearer ${savedToken}`
           }
@@ -137,8 +138,8 @@ export const CanteenProvider = ({ children }) => {
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
       const endpoint = activeRole === 'admin' 
-        ? 'http://localhost:5001/api/menu/admin' 
-        : 'http://localhost:5001/api/menu/student';
+        ? `${API_URL}/api/menu/admin` 
+        : `${API_URL}/api/menu/student`;
       
       const res = await fetch(endpoint, {
         headers: {
@@ -175,7 +176,7 @@ export const CanteenProvider = ({ children }) => {
       else if (role === 'admin') username = 'admin1';
 
       if (username) {
-        const res = await fetch('http://localhost:5001/api/auth/login', {
+        const res = await fetch(`${API_URL}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password: 'password123' })
@@ -202,7 +203,7 @@ export const CanteenProvider = ({ children }) => {
   // 4. Unified Authentication APIs
   const login = async (username, password) => {
     try {
-      const res = await fetch('http://localhost:5001/api/auth/login', {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: username.toLowerCase().trim(), password })
@@ -247,7 +248,7 @@ export const CanteenProvider = ({ children }) => {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
       if (!savedToken) return;
 
-      const res = await fetch('http://localhost:5001/api/notifications', {
+      const res = await fetch(`${API_URL}/api/notifications`, {
         headers: { 'Authorization': `Bearer ${savedToken}` }
       });
       const data = await res.json();
@@ -287,7 +288,7 @@ export const CanteenProvider = ({ children }) => {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
       if (!savedToken) return;
 
-      const res = await fetch('http://localhost:5001/api/notifications/mark-all-read', {
+      const res = await fetch(`${API_URL}/api/notifications/mark-all-read`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${savedToken}` }
       });
@@ -352,13 +353,13 @@ export const CanteenProvider = ({ children }) => {
 
       let endpoint = '';
       if (activeRole === 'student') {
-        endpoint = 'http://localhost:5001/api/orders/student';
+        endpoint = `${API_URL}/api/orders/student`;
       } else if (activeRole === 'cashier') {
         const [pendingRes, recentRes] = await Promise.all([
-          fetch('http://localhost:5001/api/orders/cashier/pending', {
+          fetch(`${API_URL}/api/orders/cashier/pending`, {
             headers: { 'Authorization': `Bearer ${savedToken}` }
           }),
-          fetch('http://localhost:5001/api/orders/cashier/recent', {
+          fetch(`${API_URL}/api/orders/cashier/recent`, {
             headers: { 'Authorization': `Bearer ${savedToken}` }
           })
         ]);
@@ -391,7 +392,7 @@ export const CanteenProvider = ({ children }) => {
         setOrders(mergedOrders);
         return;
       } else if (activeRole === 'kitchen') {
-        endpoint = 'http://localhost:5001/api/orders/kitchen';
+        endpoint = `${API_URL}/api/orders/kitchen`;
       } else {
         return;
       }
@@ -424,7 +425,7 @@ export const CanteenProvider = ({ children }) => {
     const savedToken = sessionStorage.getItem('smartcanteen_token');
     if (!savedToken) return;
 
-    const socket = socketIO('http://localhost:5001');
+    const socket = socketIO(`${API_URL}`);
 
     socket.on('connect', () => {
       console.log('Live Simulator Client Socket Connected');
@@ -467,7 +468,7 @@ export const CanteenProvider = ({ children }) => {
         quantity: item.quantity
       }));
 
-      const res = await fetch('http://localhost:5001/api/orders/student', {
+      const res = await fetch(`${API_URL}/api/orders/student`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -562,7 +563,7 @@ export const CanteenProvider = ({ children }) => {
         quantity: item.quantity
       }));
 
-      const res = await fetch('http://localhost:5001/api/orders/cashier', {
+      const res = await fetch(`${API_URL}/api/orders/cashier`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -594,7 +595,7 @@ export const CanteenProvider = ({ children }) => {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
       if (!savedToken) return { success: false, message: 'Authorization token not found' };
 
-      const res = await fetch('http://localhost:5001/api/student/profile', {
+      const res = await fetch(`${API_URL}/api/student/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -620,7 +621,7 @@ export const CanteenProvider = ({ children }) => {
   const addMenuItem = async (item) => {
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
-      const res = await fetch('http://localhost:5001/api/menu/admin', {
+      const res = await fetch(`${API_URL}/api/menu/admin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
