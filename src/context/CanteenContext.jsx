@@ -267,7 +267,7 @@ export const CanteenProvider = ({ children }) => {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
       if (!savedToken) return;
 
-      const res = await fetch(`http://localhost:5001/api/notifications/${notificationId}/read`, {
+      const res = await fetch(`${API_URL}/api/notifications/${notificationId}/read`, {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${savedToken}` }
       });
@@ -508,11 +508,11 @@ export const CanteenProvider = ({ children }) => {
       let endpoint = '';
       
       if (status === 'PAID') {
-        endpoint = `http://localhost:5001/api/orders/cashier/${dbId}/mark-paid`;
+        endpoint = `${API_URL}/api/orders/cashier/${dbId}/mark-paid`;
       } else if (status === 'READY') {
-        endpoint = `http://localhost:5001/api/orders/kitchen/${dbId}/ready`;
+        endpoint = `${API_URL}/api/orders/kitchen/${dbId}/ready`;
       } else if (status === 'DELIVERED') {
-        endpoint = `http://localhost:5001/api/orders/kitchen/${dbId}/delivered`;
+        endpoint = `${API_URL}/api/orders/kitchen/${dbId}/delivered`;
       }
 
       if (endpoint) {
@@ -537,7 +537,7 @@ export const CanteenProvider = ({ children }) => {
   const lookupStudent = async (searchVal) => {
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
-      const res = await fetch(`http://localhost:5001/api/orders/cashier/student/search?query=${encodeURIComponent(searchVal)}`, {
+      const res = await fetch(`${API_URL}/api/orders/cashier/student/search?query=${encodeURIComponent(searchVal)}`, {
         headers: {
           'Authorization': `Bearer ${savedToken}`
         }
@@ -647,7 +647,7 @@ export const CanteenProvider = ({ children }) => {
   const updateMenuItem = async (updatedItem) => {
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
-      const res = await fetch(`http://localhost:5001/api/menu/admin/${updatedItem.id}`, {
+      const res = await fetch(`${API_URL}/api/menu/admin/${updatedItem.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -674,7 +674,7 @@ export const CanteenProvider = ({ children }) => {
   const deleteMenuItem = async (itemId) => {
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
-      const res = await fetch(`http://localhost:5001/api/menu/admin/${itemId}`, {
+      const res = await fetch(`${API_URL}/api/menu/admin/${itemId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${savedToken}`
@@ -700,7 +700,7 @@ export const CanteenProvider = ({ children }) => {
 
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
-      const res = await fetch(`http://localhost:5001/api/menu/admin/${itemId}`, {
+      const res = await fetch(`${API_URL}/api/menu/admin/${itemId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

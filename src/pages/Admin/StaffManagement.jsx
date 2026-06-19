@@ -199,7 +199,7 @@ const StaffManagement = () => {
     setEditLoading(true);
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
-      const res = await fetch(`http://localhost:5001/api/admin/staff/${editingStaffId}`, {
+      const res = await fetch(`${API_URL}/api/admin/staff/${editingStaffId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -240,7 +240,7 @@ const StaffManagement = () => {
 
     try {
       const savedToken = sessionStorage.getItem('smartcanteen_token');
-      const res = await fetch(`http://localhost:5001/api/admin/password-reset/search?query=${encodeURIComponent(searchQuery)}`, {
+      const res = await fetch(`${API_URL}/api/admin/password-reset/search?query=${encodeURIComponent(searchQuery)}`, {
         headers: { 'Authorization': `Bearer ${savedToken}` }
       });
       const data = await res.json();
