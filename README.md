@@ -9,16 +9,19 @@
 [![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white)](https://socket.io/)
 [![Razorpay](https://img.shields.io/badge/Razorpay-02042B?style=for-the-badge)](https://razorpay.com/)
 
-**SmartCanteen** is a production-ready, full-stack real-time canteen automation platform. It is designed to streamline food ordering, payment processing, kitchen queue management, and admin oversight through a unified, secure system comprising dedicated **Student**, **Cashier**, **Kitchen**, and **Admin** portals.
+A full-stack real-time canteen automation platform that streamlines food ordering, payment processing, kitchen operations, and order tracking through dedicated Student, Cashier, Kitchen, and Admin portals.
+
+🔗 **Live Project Demo**: [smart-canteen-blush.vercel.app](https://smart-canteen-blush.vercel.app/)
 
 ---
 
-## 📖 Table of Contents
-* [Features](#-features)
+## 📋 Table of Contents
+* [Problem Statement & Solution](#-problem-statement--solution)
+* [Features Access Matrix](#-features-access-matrix)
+* [Portal Breakdowns](#-portal-breakdowns)
 * [Tech Stack](#-tech-stack)
 * [System Architecture](#-system-architecture)
 * [Project Workflow](#-project-workflow)
-* [Screenshots](#-screenshots)
 * [Installation & Local Setup](#-installation--local-setup)
 * [API Specification](#-api-specification)
 * [Demo Credentials](#-demo-credentials)
@@ -28,68 +31,85 @@
 
 ---
 
-## 🌟 Features
+## 🎯 Problem Statement & Solution
+
+### The Problem
+Traditional college canteens rely on manual token-based ordering, resulting in long queues, crowding at the counters, payment delays, and inefficient order tracking. Kitchen staff struggle to manage orders chronologically, and students waste valuable break times waiting for their food.
+
+### The Solution
+**SmartCanteen** digitizes the entire canteen workflow. By implementing a real-time ordering and payment queue dashboard, cashiers can instantly log POS walk-ins, students can buy online or track statuses from their phones, and the kitchen manages a live, chronologically sorted preparation queue.
+
+---
+
+## 📊 Features Access Matrix
+
+| Platform Features | Student | Cashier | Kitchen | Admin |
+| :--- | :---: | :---: | :---: | :---: |
+| Browse Menu & Cart | ✔ | | | |
+| Place Order (Online/Cash) | ✔ | | | |
+| Real-Time Order Status Tracking | ✔ | | | |
+| Student Search (Roll/Phone) | | ✔ | | |
+| Counter POS Ordering | | ✔ | | |
+| Verify & Confirm Cash Payments | | ✔ | | |
+| Preparing/Ready Order Queues | | | ✔ | |
+| Update Orders (Ready/Delivered) | | | ✔ | |
+| Catalog CRUD & Stock Management | | | | ✔ |
+| Crew Staff Directory CRUD | | | | ✔ |
+| Secure Password Reset Controls | | | | ✔ |
+| Sales & Revenue Analytics Charts | | | | ✔ |
+
+---
+
+## 🌟 Portal Breakdowns
 
 ### 🎓 Student Portal
-* **Student Registration & Login**: Secure credential-based signup and signin utilizing cryptographically hashed passwords.
-* **Profile Management**: Profile page to update full name, department, and phone details while keeping roll numbers and system roles read-only.
-* **Browse Menu**: Interactive menu catalog showing items sorted by category (*Beverages*, *Snacks*, *Fast Food*) with live stock indicator states.
-* **Add to Cart**: Dynamic cart management allowing item addition, removal, and quantity adjustments with instant checkout totals.
-* **Place Orders**: Unified checkout supporting cash and online routes.
-* **Online Payments (Razorpay)**: Sandbox integration with Razorpay SDK validating payment creation signatures on the backend.
-* **Cash Payments**: Place orders marked pending until counter cash validation.
-* **Order Tracking**: Chronological view tracking active orders categorized by statuses (`PENDING_PAYMENT`, `PAID`, `READY`, `DELIVERED`).
-* **Real-Time Updates**: Instantly transitions order cards on the UI via socket events.
-* **Notification Center**: Bell dropdown component displaying unread website alerts with support to mark single or all as read.
+* **Registration & Login**: Secure signup/signin using hashed credentials.
+* **Profile Management**: Profile page to update name, department, and phone details.
+* **Menu Browsing**: Filter and browse items sorted by category with real-time stock indicators.
+* **Cart Management**: Add, remove, and adjust item quantities with instant subtotal calculations.
+* **Order Placement**: Place cash orders (verified at counter) or online orders.
+* **Online Payments**: Direct sandbox verification using the Razorpay SDK.
+* **Cash Payments**: Order placed instantly and processed upon cashier payment confirmation.
+* **Order Tracking**: Live visual status card tracking active orders.
+* **Real-Time Updates**: UI changes immediately as order status is adjusted.
+* **In-App Notifications**: Website alert bell badge showing unread notification logs.
+* **Order History**: History ledger to track previous purchases.
 
 ### 💰 Cashier Portal
 * **Student Search**: Fast lookup of registered student profiles by Roll Number or Phone.
-* **Counter Orders**: Direct POS cashier ordering layout to place on-the-spot orders for walk-ins or students.
-* **Pending Payment Management**: List of orders awaiting cash payments at the counter.
-* **Mark Orders Paid**: Click-to-pay confirmations syncing status modifications instantly with the kitchen screen.
-* **Transaction Logs**: Read-only ledger showing recent cashier-handled orders.
+* **Counter Orders**: Billing POS layout to log walk-in orders.
+* **Pending Payment Management**: List of cash-checkout orders waiting counter payment.
+* **Mark Orders Paid**: Instant confirmation action moving orders from payment queue to the kitchen.
+* **Transaction Logs**: Recent transaction records in a read-only list.
 
 ### 👨‍🍳 Kitchen Portal
-* **Order Queue Management**: Oldest-first queues displaying active orders in `PAID` (preparing) and `READY` (waiting collection) states.
-* **Mark Orders Ready**: Transitions order state to `READY`, automatically pushing Socket.io in-app alerts and WhatsApp SMS updates to the customer.
-* **Mark Orders Delivered**: Instantly archives the card to completed logs.
-* **Real-Time Order Updates**: Kitchen queues expand/contract dynamically as new orders are processed at the counter or online.
+* **Order Queue Management**: Chronological preparation queues sorting active orders.
+* **Mark Orders Ready**: Moves card to collection queue and dispatches client-side socket notification.
+* **Mark Orders Delivered**: Finalizes order processing and archives the order card.
+* **Real-Time Order Updates**: Order cards appear, move, and disappear instantly as actions occur.
 
 ### 👨‍💼 Admin Portal
-* **Menu Management**: CRUD panel to add, edit, or delete items and toggle item availability on the fly.
-* **Staff Management**: View, register, and update cashiers and kitchen worker accounts.
-* **Password Reset Management**: Look up any student or staff profile and generate temporary credentials with secure one-time-view UI displays.
-* **Revenue Analytics**: Admin dashboard displaying today's total orders, total revenue, online vs. cash splits, and cashier pending amounts.
-* **Notification Analytics**: Track real-time success/failure tallies of outbound WhatsApp logs and website alerts.
-* **Top Ordered Items**: Dynamically ranks and graphs the top 5 highest selling catalog items by volume and revenue.
+* **Menu Management**: CRUD catalog panel (add items, edit details, toggle active stock).
+* **Staff Management**: View, register, and update cashier and kitchen worker accounts.
+* **Password Reset Management**: Search student or staff profiles and generate secure, one-time temporary credentials.
+* **Revenue Analytics**: Visual summary of today's gross sales, payments split, and pending balances.
+* **Notification Analytics**: Logs of successfully pushed in-app and alert events.
+* **Top Ordered Items**: Graph of top 5 best selling items by volume.
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend
-* **Core Framework**: React.js (v19)
-* **Build Tooling**: Vite
-* **Styling**: Tailwind CSS
-* **Icons**: Lucide React
-* **Real-Time Engine**: Socket.IO Client (v4)
-
-### Backend
-* **Core Engine**: Node.js & Express.js
-* **Real-Time Gateway**: Socket.IO Server (v4)
-* **Authentication**: JSON Web Token (JWT) & bcryptjs (password hashing)
-* **Payment Gateway**: Razorpay Node.js SDK
-* **Notification Dispatcher**: Meta WhatsApp Cloud API (Graph API integration)
-
-### Database
-* **Database**: MongoDB (hosted securely via MongoDB Atlas)
-* **ODM Client**: Mongoose
+* **Frontend**: React.js, Vite, Tailwind CSS, Socket.IO Client
+* **Backend**: Node.js, Express.js, Socket.IO
+* **Database**: MongoDB, Mongoose
+* **Authentication**: JWT, bcryptjs
+* **Payments**: Razorpay
+* **Deployment**: Vercel, MongoDB Atlas
 
 ---
 
 ## 🏗️ System Architecture
-
-The following diagram illustrates how the four portals communicate with the Express backend, Socket server, database, and third-party integrations:
 
 ```mermaid
 graph TD
@@ -118,7 +138,6 @@ graph TD
     %% Databases & Services
     DB[(MongoDB Atlas Database)]
     Razorpay["💳 Razorpay Gateway API"]
-    WhatsApp["💬 Meta WhatsApp Cloud API"]
 
     %% Communications
     StudentPortal & CashierPortal & KitchenPortal & AdminPortal <--> SocketClient
@@ -127,7 +146,6 @@ graph TD
     REST --> AuthMW
     AuthMW --> DB
     REST --> Razorpay
-    REST --> WhatsApp
     SocketClient <--> SocketServer
     SocketServer <--> REST
 ```
@@ -135,8 +153,6 @@ graph TD
 ---
 
 ## 🔄 Project Workflow
-
-The step-by-step lifecycle of an order from placement to final collection:
 
 ```mermaid
 sequenceDiagram
@@ -146,9 +162,8 @@ sequenceDiagram
     participant Server as Express API Server
     participant Sockets as Socket.IO Hub
     participant Kitchen as Kitchen Queue (Web Portal)
-    participant WhatsApp as WhatsApp Gateway
 
-    Student->>Server: 1. Place order (Choose payment route)
+    Student->{Server}: 1. Place order (Select Food + Choose Pay Method)
     
     alt Online payment path
         Student->>Server: 2a. Pay online via Razorpay SDK
@@ -162,157 +177,141 @@ sequenceDiagram
     Sockets-->>Kitchen: 5. Live update updates kitchen preparing queue
     Kitchen->>Server: 6. Mark order status as READY
     Server->>Sockets: 7. Dispatch Socket Alert (Ready notification)
-    Server->>WhatsApp: 8. Trigger Meta SMS API
-    Sockets-->>Student: 9. In-app bell counter increments
-    WhatsApp-->>Student: 10. WhatsApp message received ("Your order is ready")
-    Student->>Kitchen: 11. Collect food items (Mark DELIVERED)
+    Sockets-->>Student: 8. In-app bell counter increments and displays pop-up alert
+    Student->>Kitchen: 9. Collect food items (Mark DELIVERED)
 ```
-
----
-
-## 📸 Screenshots
-
-*To view live UI assets, replace the placeholders below after uploading your application visuals:*
-
-| View | Screenshot |
-| :--- | :--- |
-| **Landing Page** | ![Landing Page](https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&q=80&w=600) |
-| **Student Dashboard** | ![Student Dashboard](https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=600) |
-| **Cart Page** | ![Cart Page](https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&q=80&w=600) |
-| **Cashier Dashboard** | ![Cashier Dashboard](https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&q=80&w=600) |
-| **Kitchen Dashboard** | ![Kitchen Dashboard](https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&q=80&w=600) |
-| **Admin Dashboard** | ![Admin Dashboard](https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600) |
-| **Analytics Dashboard** | ![Analytics Dashboard](https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600) |
 
 ---
 
 ## ⚙️ Installation & Local Setup
 
-### Prerequisite Environment Checklist
-Ensure you have **Node.js (v18+)** and **MongoDB** running locally or a **MongoDB Atlas Cloud Connection string** ready.
+### 1. MongoDB Setup
+Ensure you have MongoDB running locally, or configure a cluster on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and obtain a cloud connection string.
 
-### 1. Database Configuration
-Create a `.env` file in the `server` directory and paste your configuration:
+### 2. Environment Configurations
+Create a `.env` file inside the `server/` directory:
 ```env
 PORT=5001
-MONGO_URI=mongodb+srv://<username>:<password>@<your-cluster>.mongodb.net/smartcanteen?retryWrites=true&w=majority
-JWT_SECRET=your_super_secret_jwt_key_here
-RAZORPAY_KEY_ID=rzp_test_SvEakfjU8iW6tS
-RAZORPAY_KEY_SECRET=xqsC2iIuhP6AnwRVaAYQqmGY
-WHATSAPP_API_KEY=your_whatsapp_cloud_api_access_token_here
-WHATSAPP_PHONE_NUMBER_ID=your_whatsapp_phone_number_id_here
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key_here
+RAZORPAY_KEY_ID=your_razorpay_key_id_here
+RAZORPAY_KEY_SECRET=your_razorpay_key_secret_here
 ```
 
-### 2. Backend Setup & Seeding
-1. Open a terminal, go to the server folder, and install backend packages:
-   ```bash
-   cd server
-   npm install
-   ```
-2. Seed the database with default accounts (users, students, and menu):
-   ```bash
-   npm run seed
-   ```
-3. Start the Node.js/Express server:
-   ```bash
-   npm run dev
-   ```
+### 3. Backend Installation
+Navigate into the `server` directory, install packages, and seed default portal accounts:
+```bash
+cd server
+npm install
+npm run seed
+```
+Start the local server:
+```bash
+npm run dev
+```
 
-### 3. Frontend Setup
-1. Open a new terminal tab at the root of the project.
-2. Install frontend dependencies:
-   ```bash
-   npm install
-   ```
-3. Boot up the Vite client:
-   ```bash
-   npm run dev
-   ```
-4. Access the portal at [http://localhost:5173](http://localhost:5173).
+### 4. Frontend Installation
+In a separate terminal tab at the root of the project, install packages and start the Vite client:
+```bash
+npm install
+npm run dev
+```
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
 ## 🔌 API Specification
 
-All protected routes require a Bearer JWT Token in the Authorization header: `Authorization: Bearer <JWT_TOKEN>`.
+All protected endpoints require a JWT bearer token attached to headers: `Authorization: Bearer <token>`.
 
 ### Authentication APIs
-* `POST /api/auth/student-register` (Public) - Create student account.
-* `POST /api/auth/login` (Public) - Standard login for all roles.
-* `GET /api/auth/profile` (Protected) - Retrieves verified account credentials.
+* `POST /api/auth/student-register` (Public) - Create a student profile.
+* `POST /api/auth/login` (Public) - Unified credentials login for all portals.
+* `GET /api/auth/profile` (Protected) - Retrieves verified session user details.
 
 ### Student APIs
-* `PUT /api/student/profile` (Protected, role: student) - Updates name, phone, or department.
+* `PUT /api/student/profile` (Protected, role: student) - Updates name, department, or phone.
 
 ### Menu Catalog APIs
-* `GET /api/menu/student` (Protected) - Fetches in-stock items.
-* `GET /api/menu/admin` (Protected, role: admin) - Fetches full items.
-* `POST /api/menu/admin` (Protected, role: admin) - Add menu item.
-* `PUT /api/menu/admin/:id` (Protected, role: admin) - Edit menu item.
-* `DELETE /api/menu/admin/:id` (Protected, role: admin) - Delete menu item.
+* `GET /api/menu/student` (Protected) - Lists active/available menu items.
+* `GET /api/menu/admin` (Protected, role: admin) - Lists full catalog items.
+* `POST /api/menu/admin` (Protected, role: admin) - Add a new catalog food item.
+* `PUT /api/menu/admin/:id` (Protected, role: admin) - Edit menu item details or stock toggle.
+* `DELETE /api/menu/admin/:id` (Protected, role: admin) - Remove a food item.
 
-### Order APIs
-* `POST /api/orders/student` (Protected, role: student) - Places checkout cart order.
-* `GET /api/orders/student` (Protected, role: student) - Customer history listing.
-* `POST /api/orders/cashier` (Protected, role: cashier) - POS counter checkout.
-* `GET /api/orders/cashier/pending` (Protected, role: cashier) - Cash orders waiting counters verification.
-* `PATCH /api/orders/cashier/:id/mark-paid` (Protected, role: cashier) - Confirm cash payment.
-* `GET /api/orders/kitchen` (Protected, role: kitchen) - Active kitchen queue.
-* `PATCH /api/orders/kitchen/:id/ready` (Protected, role: kitchen) - Updates order to ready.
-* `PATCH /api/orders/kitchen/:id/delivered` (Protected, role: kitchen) - Completes delivery.
+### Order Management APIs
+* `POST /api/orders/student` (Protected, role: student) - Checkout order.
+* `GET /api/orders/student` (Protected, role: student) - Fetch current student history.
+* `POST /api/orders/cashier` (Protected, role: cashier) - Counter POS checkout order.
+* `GET /api/orders/cashier/pending` (Protected, role: cashier) - Get cash orders waiting payment.
+* `PATCH /api/orders/cashier/:id/mark-paid` (Protected, role: cashier) - Set cash order status to PAID.
+* `GET /api/orders/kitchen` (Protected, role: kitchen) - Active preparing & ready queue logs.
+* `PATCH /api/orders/kitchen/:id/ready` (Protected, role: kitchen) - Set status to READY.
+* `PATCH /api/orders/kitchen/:id/delivered` (Protected, role: kitchen) - Set status to DELIVERED.
 
 ### Administrative Management APIs
-* `GET /api/admin/analytics` (Protected, role: admin) - Get aggregated analytics.
-* `GET /api/admin/staff` (Protected, role: admin) - List cashier/kitchen users.
-* `POST /api/admin/staff/create` (Protected, role: admin) - Add cashier/kitchen worker.
-* `PUT /api/admin/staff/:id` (Protected, role: admin) - Update staff details.
-* `GET /api/admin/password-reset/search` (Protected, role: admin) - Search profile by roll/username.
-* `POST /api/admin/password-reset/reset` (Protected, role: admin) - Re-generate temp passwords.
-* `GET /api/admin/password-reset/logs` (Protected, role: admin) - Fetch audit log table.
+* `GET /api/admin/analytics` (Protected, role: admin) - Live analytics aggregate payload.
+* `GET /api/admin/staff` (Protected, role: admin) - List registered cashiers and kitchen staff.
+* `POST /api/admin/staff/create` (Protected, role: admin) - Register cashier/kitchen worker.
+* `PUT /api/admin/staff/:id` (Protected, role: admin) - Edit staff account properties.
+* `GET /api/admin/password-reset/search` (Protected, role: admin) - Find profile by roll number.
+* `POST /api/admin/password-reset/reset` (Protected, role: admin) - Triggers reset of credentials.
+* `GET /api/admin/password-reset/logs` (Protected, role: admin) - List password reset logs.
+
+---
+
+## ⚙️ Deployment Instructions
+
+### MongoDB Atlas Cloud Cluster
+1. Create a free shared cluster in Atlas.
+2. In **Network Access**, click **Add IP Address** and whitelist `0.0.0.0/0` (Allow access from anywhere).
+3. Under **Database Access**, create a database user and copy the connection string.
+
+### Backend (Render / Alternative Node Hosts)
+1. Deploy the project as a Node.js web service.
+2. Configure **Root Directory** as `server`.
+3. Set the build command to `npm install` and the start command to `node server.js`.
+4. Add environment variables under advanced configurations.
+
+### Frontend (Vercel)
+1. Import your project directory to Vercel (auto-detects the Vite preset).
+2. Add the environment variable `VITE_API_URL` pointing to your deployed backend URL.
+3. Deploy!
 
 ---
 
 ## 👤 Demo Credentials
 
-Test accounts are preloaded into the database by the seeding script.
-* **Shared Password for All Accounts**: `password123`
-
-| Role | Username | Display Name |
-| :--- | :--- | :--- |
-| **Canteen Admin** | `admin1` | Canteen Admin 1 |
-| **Counter Cashier** | `cashier1` | Canteen Cashier 1 |
-| **Kitchen Crew** | `kitchen1` | Canteen Kitchen 1 |
-| **Student** | `22bd1a0501` | Sai Charan Ega |
-| **Student** | `22bd1a0502` | Priya Sharma |
-
-> [!NOTE]
-> **Safety Warning**: Demo credentials are provided for testing purposes only.
+Demo credentials available upon request.
 
 ---
 
 ## 💎 Key Highlights
 
-* **Real-Time Order Tracking**: Integrates Socket.io to keep portals synchronized. When kitchen updates an order status, the cashier and student pages update instantly without requiring page reloads.
-* **Razorpay Payment Gateway**: Secure frontend payment flow checking and validating payment signature verify logs before confirming database updates.
-* **Role-Based Authentication**: Strict JWT verification middleware guards all critical routes. Students are blocked from access level permissions to staff pages.
-* **WhatsApp Outbound Notifications**: Direct connection to Meta's Cloud Graph API dispatches SMS notifications to students' registered phones.
-* **Multi-Portal Architecture**: Tailored interfaces for student mobile ordering, cashier walk-in billing, kitchen prep queues, and admin financials.
-* **Audit Password Reset Ledger**: Passwords generated by the administrator are never saved in logs as plaintext. They display once on-screen and are saved as secure bcrypt hashes.
+* **Multi-Portal Architecture**: Tailored, isolated user experiences for students, cashier counter staff, kitchen preparing staff, and administrative management.
+* **Real-Time Order Tracking**: Bi-directional communication channel keeps queues synchronized instantly across cashier confirmations and kitchen ready alerts.
+* **Razorpay Integration**: Clean, verified online checkout flow validating payments before dispatching tickets to the kitchen.
+* **Role-Based Authentication**: Custom Express middleware validates routing, preventing users from accessing administrative or kitchen dashboard panels.
+* **Staff Management**: Administrative overview allowing full control over register logins, profile edits, and cashier directories.
+* **Analytics Dashboard**: Tracks today's gross sales revenue, online/cash breakdown ratios, notifications history, and top-selling food rankings.
+* **Secure REST APIs**: Complete parameter sanitation and secure password logging mechanisms that hide generated secrets behind hashes.
 
 ---
 
 ## 🔮 Future Enhancements
 
-* **AI Canteen Sales Forecasting**: Integrate forecasting libraries to analyze order volumes and predict item demand based on days of the week or college seasons.
-* **Inventory Management Module**: Deducts raw ingredients count dynamically as kitchen staff complete food orders, flagging low stock items to the admin.
-* **Mobile Companion Application**: Deploying client files as a Progressive Web App (PWA) with push notification alerts.
-* **QR Code Pickup System**: Generates secure pickup QR slips on students' tracking dashboards that kitchen workers scan using a camera view to verify collection.
-* **Advanced Financials Export**: PDF/CSV invoice exports showing monthly canteen financials and tax records.
+* **WhatsApp Cloud API Notifications**: Automatic SMS message delivery to students' registered phones as soon as orders are marked READY by the kitchen.
+* **AI-Based Sales Forecasting**: Smart analytics module evaluating historical weekly sales to predict future daily inventory needs.
+* **Inventory Management**: Automatically tracks and subtracts raw ingredient pools as orders are delivered, alerting admins to re-order supplies.
+* **QR Pickup System**: Generate unique, scan-to-claim QR codes on the student UI that kitchen staff scan to verify pickup.
+* **Mobile Application**: Wrap frontend builds inside React Native or progressive offline web containers for a mobile app store release.
+* **Advanced Analytics**: Detailed charts supporting custom dates, monthly profit logs, and custom PDF receipt outputs.
 
 ---
 
 ## ✍️ Author
 
 **Sai Charan Ega**
-* GitHub: [github.com/saicharanega](https://github.com/saicharanega)
-* LinkedIn: [linkedin.com/in/saicharanega](https://www.linkedin.com/in/saicharanega)
+
+* **GitHub**: [github.com/saicharanega](https://github.com/saicharanega)
+* **LinkedIn**: [linkedin.com/in/saicharanega](https://www.linkedin.com/in/saicharanega)
