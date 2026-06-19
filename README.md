@@ -14,6 +14,23 @@ A full-stack real-time canteen automation platform that streamlines food orderin
 🔗 **Live Project Demo**: [smart-canteen-blush.vercel.app](https://smart-canteen-blush.vercel.app/)
 
 ---
+## 👤 Demo Credentials
+
+All seed accounts share the same default password:
+* **Password**: `password123`
+
+| Role | Username |
+| :--- | :--- |
+| **Canteen Admin** | `admin1` |
+| **Counter Cashier** | `cashier1` |
+| **Kitchen Crew** | `kitchen1` |
+| **Student** | `22bd1a0501` |
+| **Student** | `22bd1a0502` |
+
+> [!NOTE]
+> Demo credentials are provided for testing purposes only.
+
+---
 
 ## 📋 Table of Contents
 * [Problem Statement & Solution](#-problem-statement--solution)
@@ -277,24 +294,6 @@ All protected endpoints require a JWT bearer token attached to headers: `Authori
 1. Import your project directory to Vercel (auto-detects the Vite preset).
 2. Add the environment variable `VITE_API_URL` pointing to your deployed backend URL.
 3. Deploy!
-
----
-
-## 👤 Demo Credentials
-
-All seed accounts share the same default password:
-* **Password**: `password123`
-
-| Role | Username |
-| :--- | :--- |
-| **Canteen Admin** | `admin1` |
-| **Counter Cashier** | `cashier1` |
-| **Kitchen Crew** | `kitchen1` |
-| **Student** | `22bd1a0501` |
-| **Student** | `22bd1a0502` |
-
-> [!NOTE]
-> Demo credentials are provided for testing purposes only.
 
 ---
 
